@@ -28,7 +28,7 @@ def home(request):
     return render(request,'main.html',context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+#@allowed_users(allowed_roles=['admin'])
 def fooditem(request):
     breakfast=Category.objects.filter(name='breakfast')[0].fooditem_set.all()
     bcnt=breakfast.count()
@@ -50,7 +50,7 @@ def fooditem(request):
     return render(request,'fooditem.html',context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+#@allowed_users(allowed_roles=['admin'])
 def createfooditem(request):
     form = fooditemForm()
     if request.method == 'POST':

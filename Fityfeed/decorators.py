@@ -1,12 +1,12 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 def unauthorized_user(view_func): 
     def wrapper_func(request,*args,**kwargs):
         if request.user.is_authenticated:
             return redirect('home')
         else:
-            return view_func(request,*args,**kwargs)
+            return view_func(request,*args,**kwargs)    
     return wrapper_func
 
 def allowed_users(allowed_roles=[]):
@@ -18,7 +18,7 @@ def allowed_users(allowed_roles=[]):
             if group in allowed_roles:
                 return view_func(request,*args,**kwargs)
             else:
-                return HttpResponse("<h1>You are not allowed to access this page</h1>")
+                return HttpResponse("<h1>You are not allowed to access this page</h1>")  
         return wrapper_func
     return decorator
 
@@ -31,4 +31,7 @@ def admin_only(view_func):
             return redirect('userPage')
         if group=='admin':
             return view_func(request,*args,**kwargs)
+        else:
+            return render(request,'user.html')
+              
     return wrapper_func
